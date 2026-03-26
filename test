@@ -47,27 +47,7 @@ import java.sql.*;
 	            e.printStackTrace();
 	        }
 	    }
-
-	    // 2. READ (all)
-	    public void getAllStudents() {
-	        try {
-	            Connection con = DriverManager.getConnection(url, user, pass);
-	            Statement st = con.createStatement();
-	            ResultSet rs = st.executeQuery("SELECT * FROM student");
-
-	            while (rs.next()) {
-	                System.out.println(
-	                    rs.getInt("id") + " " +
-	                    rs.getString("name") + " " +
-	                    rs.getString("email")
-	                );
-	            }
-	            con.close();
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-	    }
-
+	       
 	    // 3. UPDATE
 	    public boolean updateStudentEmail(int id, String newEmail) {
 	        try {
