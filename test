@@ -1,0 +1,104 @@
+package com.cambridge.jdbc;
+import java.sql.*;
+
+	public class StudentDAO {
+
+	    String url = "jdbc:mysql://localhost:3306/student_database";
+	    String user = "root";
+	    String pass = "admin";
+
+	    // Create
+	    public boolean addStudent(int id, String name, String email) {
+	        try {
+	            Connection con = DriverManager.getConnection(url, user, pass);
+	            PreparedStatement ps = con.prepareStatement(
+	                "INSERT INTO student VALUES (?, ?, ?)"
+	            );
+	            ps.setInt(1, id);
+	            ps.setString(2, name);
+	            ps.setString(3, email);
+	            ps.executeUpdate();
+	            con.close();
+	            return true;
+	        } catch (Exception e) {
+	            return false;
+	        }
+	    }
+
+	    // read
+	    public void getStudentById(int id) {
+	        try {
+	            Connection con = DriverManager.getConnection(url, user, pass);
+	            PreparedStatement ps = con.prepareStatement(
+	                "SELECT * FROM student WHERE id=?"
+	            );
+	            ps.setInt(1, id);
+	            ResultSet rs = ps.executeQuery();
+
+	            while (rs.next()) {
+	                System.out.println(
+	                    rs.getInt("id") + " " +
+	                    rs.getString("name") + " " +
+	                    rs.getString("email")
+	                );
+	            }
+	            con.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+	    // 2. READ (all)
+	    public void getAllStudents() {
+	        try {
+	            Connection con = DriverManager.getConnection(url, user, pass);
+	            Statement st = con.createStatement();
+	            ResultSet rs = st.executeQuery("SELECT * FROM student");
+
+	            while (rs.next()) {
+	                System.out.println(
+	                    rs.getInt("id") + " " +
+	                    rs.getString("name") + " " +
+	                    rs.getString("email")
+	                );
+	            }
+	            con.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+	    // 3. UPDATE
+	    public boolean updateStudentEmail(int id, String newEmail) {
+	        try {
+	            Connection con = DriverManager.getConnection(url, user, pass);
+	            PreparedStatement ps = con.prepareStatement(
+	                "UPDATE student SET email=? WHERE id=?"
+	            );
+	            ps.setString(1, newEmail);
+	            ps.setInt(2, id);
+	            ps.executeUpdate();
+	            con.close();
+	            return true;
+	        } catch (Exception e) {
+	            return false;
+	        }
+	    }
+
+	    // 4. DELETE
+	    public boolean deleteStudent(int id) {
+	        try {
+	            Connection con = DriverManager.getConnection(url, user, pass);
+	            PreparedStatement ps = con.prepareStatement(
+	                "DELETE FROM student WHERE id=?"
+	            );
+	            ps.setInt(1, id);
+	            ps.executeUpdate();
+	            con.close();
+	            return true;
+	        } catch (Exception e) {
+	            return false;
+	        }
+	    }
+	}
+
